@@ -1,63 +1,78 @@
 var hr,mn,sec;
 
-var clockImage,clock;
+var clockImage,clock,clock2Image,clock2;
 
 function preload(){
 clockImage = loadImage("clock.png");
+clock2Image = loadImage("digital.png");
 }
 
 function setup() {
-  createCanvas(800,500);
+  createCanvas(1000,500);
  
   clock = createSprite(398, 218);
   clock.addImage(clockImage);
   clock.scale = 0.8;
+
+  clock2 = createSprite(798, 218);
+  clock2.addImage(clock2Image);
+  clock2.scale = 1.3;
   
 }
 
 function draw() {
-  background(255,255,255);  
+  background(255);  
   drawSprites();
 
 
+  translate(400,241);
+  rotate(-90);
+ let hr = hour();
+ let mn = minute();
+ let sc = second();
 
-  hr = hour();
-  mn = minute();
-  sec = second();
-angleMode(DEGREES);
-hrAngle = map(hr, 109+1/2, 60, 0, 360);
-mnAngle = map(mn, 0, 60, 0, 360);
-secAngle = map(sec, 0, 60, 0, 360);
-translate(400,241);
-rotate(-90);
-push();
-rotate(hrAngle);
-stroke("Black");
-strokeWeight(7);
-line(0,0,50,0);
-pop();
-noFill()
-strokeWeight(7)
-stroke("Black");
-arc(0,0,300,300,0,hrAngle); 
-push();
-rotate(mnAngle);
-stroke("Violet");
-strokeWeight(7);
-line(0,0,70,0);
-pop();
-noFill()
-strokeWeight(7)
-stroke("Violet");
-arc(0,0,340,340,0,mnAngle); 
-push();
-rotate(secAngle);
-stroke(255,0,0);
-strokeWeight(7);
-line(0,0,100,0);
-pop();
-noFill()
-strokeWeight(7)
-stroke(255,0,0);
-arc(0,0,320,320,0,secAngle); 
+ strokeWeight(8);
+ stroke("orange");
+ noFill();
+
+ let secondAngle = map(sc,0,60,0,360);
+ arc(0, 0, 300, 300, 0, secondAngle);
+
+ stroke("green");
+ let minuteAngle = map(mn,0,60,0,360);
+ arc(0, 0, 330,330, 0, minuteAngle);
+
+ stroke("Black");
+ let hourAngle = map(hr % 12, 0, 12, 0, 360);
+ arc(0, 0, 360, 360, 0, hourAngle);
+
+ push();
+ rotate(secondAngle);
+ stroke("orange");
+ line(0,0,100,0);
+ pop();
+
+ push();
+ rotate(minuteAngle);
+ stroke("green");
+ line(0,0,75,0);
+ pop();
+
+ push();
+ rotate(hourAngle);
+ stroke("Black");
+ line(0,0,50,0);
+ pop();
+
+ stroke("Black");
+ point(0,0);
+
+ push();
+ fill("Green");
+ noStroke();
+ rotate(90);
+ textSize(30);
+ textAlign(CENTER);
+ text(hr + ':' + mn + ':' + sc,398, -9);
+ pop();
 }
